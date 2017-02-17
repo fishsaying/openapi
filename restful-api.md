@@ -1,9 +1,50 @@
 #接口设计
 
-所有接口均需要带上`access_token`参数
+
+#HTTP头 说明
+http header | 说明
+------ | -----
+X-RateLimit-Limit | 每天请求次数上限
+X-RateLimit-Remaining | 今天剩余请求次数
+X-RateLimit-Reset | 剩余请求次数重置剩余时间(秒)
+
+
+##获取access_token
+`https://api.fishsaying.com/oauth/token?client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials&scope=read`
+
+###HTTP方法
+POST
+
+###Request Parameters
+   参数名  |      类型   | 描述 | 示例  | 是否必填
+-------- | ----------- | ----------- | ---------- | --------
+client_id  |  string   | 客户ID   | fs349330887550177281   | true
+client_secret  |  string | 客户密钥   | JTbH3VYinLfvwMp8Aj88Z861bUSWYH1R| true
+grant_type |string | 授权模式 `现只支持client_credentials模式`|client_credentials |true
+scope  |  string | 权限范围 `现只支持read权限`     | read |true
+
+
+###Response Example
+```
+{
+  "access_token": "6e229bee-9cd8-4bf3-a610-8540672fc073",
+  "token_type": "bearer",
+  "expires_in": 2205,
+  "scope": "read"
+}
+```
+
+###Response Parameters
+###响应参数
+   参数名  |       描述 
+-------- | ----------- 
+access_token|   访问令牌
+token_type  |   令牌类型
+expires_in  |   过期时间(秒)
+scope       |   访问权限范围
 
 ##地理位置搜索——故事
-`https://api.fishsaying.com/geo-search/stories?page={page}&limit={limit}&latitude={latitude}&longitude={longitude}&radius={radius}`
+`https://api.fishsaying.com/geo-search/stories?page={page}&limit={limit}&latitude={latitude}&longitude={longitude}&radius={radius}&access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -15,7 +56,8 @@ latitude  |      double | 纬度       | 30.845942     | true
 longitude  |      double | 经度       | 104.066833     | true
 radius  |      int | 搜索半径(米) `1<= limit <=10,000`     | 10000     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
-limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2   | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -97,7 +139,7 @@ id  |      作者ID
 name  | 作者名称    
 source  |    作者头像 
 ##地理位置搜索——景区景点
-`https://api.fishsaying.com/geo-search/scenics?page={page}&limit={limit}&latitude={latitude}&longitude={longitude}&radius={radius}&type={type}`
+`https://api.fishsaying.com/geo-search/scenics?page={page}&limit={limit}&latitude={latitude}&longitude={longitude}&radius={radius}&type={type}&access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -109,7 +151,8 @@ latitude  |      double | 纬度       | 30.845942     | true
 longitude  |      double | 经度       | 104.066833     | true
 radius  |      int | 搜索半径(米) maximum:10,000      | 10000     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
-limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+limit  |      int | 每页记录数 `default:10, 1<= limit <=100`  | 2     | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -156,7 +199,7 @@ distance  |    离搜索经纬度的距离(米)
 description | 景区景点描述
 
 ##故事关键字搜索
-`https://api.fishsaying.com/search/stories?keyword={keyword}`
+`https://api.fishsaying.com/search/stories?keyword={keyword}&access_token={access_token}`
 ###HTTP方法
 GET
 
@@ -165,7 +208,8 @@ GET
 -------- | ----------- | ----------- | ---------- | --------
 keyword  |      string | 关键字       | 诸葛亮     | trueid
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
-limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2  | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -246,7 +290,7 @@ id  |      作者ID
 name  | 作者名称    
 source  |    作者头像 
 ##景区景点关键字搜索
-`https://api.fishsaying.com/content/search?keyword={keyword}`
+`https://api.fishsaying.com/content/search?keyword={keyword}&access_token={access_token}`
 ###HTTP方法
 GET
 
@@ -255,7 +299,8 @@ GET
 -------- | ----------- | ----------- | ---------- | --------
 keyword  |      string | 关键字       | 诸葛亮     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
-limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+limit  |      int | 每页记录数 `default:10, 1<= limit <=100`   | 2     | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -300,7 +345,7 @@ source  |    景区景点封面图片
 distance  |    离搜索经纬度的距离(米) 
 description | 景区景点描述
 ##历史人物关键字搜索
-`https://api.fishsaying.com/search/figures?keyword={keyword}`
+`https://api.fishsaying.com/search/figures?keyword={keyword}&access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -310,7 +355,8 @@ GET
 -------- | ----------- | ----------- | ---------- | --------
 keyword  |      string | 关键字       | 诸葛亮     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
-limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+limit  |      int | 每页记录数 `default:10, 1<= limit <=100`   | 2     | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -345,7 +391,7 @@ name  | 历史人物名
 source  |    历史人物封面图片
 description | 历史人物描述
 ##内容详情—故事
-`https://api.fishsaying.com/articles/{id}`
+`https://api.fishsaying.com/articles/{id}?access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -354,6 +400,7 @@ GET
    参数名  |      类型   | 描述 | 示例  | 是否必填
 -------- | ----------- | ----------- | ---------- | --------
 id  |      string | 故事ID `path parameter`       | 45c0662735e740299308b5705543c527     | true
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ```
 {
@@ -415,7 +462,7 @@ id  |      作者ID
 name  | 作者名称    
 source  |    作者头像 
 ##内容详情—景区景点
-`https://api.fishsaying.com/scenics/{id}`
+`https://api.fishsaying.com/scenics/{id}?access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -424,6 +471,7 @@ GET
    参数名  |      类型   | 描述 | 示例  | 是否必填
 -------- | ----------- | ----------- | ---------- | --------
 id  |      string | 景区景点ID `path parameter`       | 54d896539a0b8a283ff43186     | true
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ```
 {
@@ -458,7 +506,7 @@ voice_total  |    景区景点下故事总数
 description | 景区描述
 
 ##内容详情—历史人物
-`https://api.fishsaying.com/figures/{id}`
+`https://api.fishsaying.com/figures/{id}?access_token={access_token}`
 ###HTTP方法
 GET
 
@@ -466,6 +514,7 @@ GET
    参数名  |      类型   | 描述 | 示例  | 是否必填
 -------- | ----------- | ----------- | ---------- | --------
 id  |      string | 历史人物ID `path parameter` | 54cf571c9a0b8abc1aba39a5     | true
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ```
 {
@@ -504,7 +553,7 @@ source  |    历史人物封面图片
 nicknames | 其它称谓
 
 ##景区景点关联的故事列表
-`https://api.fishsaying.com/scenics/{scenicid}/articles?page={page}&limit={limit}`
+`https://api.fishsaying.com/scenics/{scenicid}/articles?page={page}&limit={limit}&access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -515,6 +564,7 @@ GET
 scenicid  |  string | 景区景点ID       | 54f424399a0b8afc44174e2c     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
 limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
@@ -588,7 +638,7 @@ name  | 作者名称
 source  |    作者头像 
 
 ##历史人物关联的故事列表
-`https://api.fishsaying.com/figures/{figureid}/articles?page={page}&limit={limit}`
+`https://api.fishsaying.com/figures/{figureid}/articles?page={page}&limit={limit}&access_token={access_token}`
 
 ###HTTP方法
 GET
@@ -599,6 +649,7 @@ GET
 figureid  |  string | 历史人物ID       | 54d183ef9a0b8a534f414469     | true
 page  |      int | 第几页 `default:1, page >=1`      | 1        |   false
 limit  |      int | 每页记录数 `default:10, 1<= limit <=100`     | 2     | false
+access_token | string | 访问令牌 | 6e229bee-9cd8-4bf3-a610-8540672fc073 | true
 
 ###Response Example
 ```
