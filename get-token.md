@@ -13,18 +13,18 @@ access_token是鱼说开放平台的全局唯一接口调用凭据，开发者�
 
 # 接口调用请求说明
 
-http请求方式: GET
-https://api.fishsaying.com/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
+http请求方式: POST
+https://api.fishsaying.com/oauth/token?grant_type=client_credential&appid=APPID&secret=APPSECRET&scope=read
 
 
 # 参数说明
 
 | 参数        | 是否必须 | 说明               |
 | ---------- |---------|-------------------|
-| grant_type | 是      | 获取access_token填写client_credential |
+| grant_type | 是      | 获取access_token填写client_credential(固定值) |
 | appid      | 是      | 第三方用户唯一凭证 | 
 | secret     | 是      | 第三方用户唯一凭证密钥，即appsecret |
-
+| scope      | 是      | read or write
 # 返回说明
 
 正常情况下，鱼说会返回下述JSON数据包给开发者：
