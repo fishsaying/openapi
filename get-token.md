@@ -1,4 +1,4 @@
-# 获取access_token
+#获取access_token
 
 access_token是鱼说开放平台的全局唯一接口调用凭据，开发者调用各接口时都需使用access_token。开发者需要进行妥善保存。  access_token的存储至少要保留512个字符空间。access_token的有效期目前为2个小时，需定时刷新，重复获取将导致上次获取的access_token失效。
 
@@ -10,12 +10,12 @@ access_token是鱼说开放平台的全局唯一接口调用凭据，开发者�
 
 开发者可以使用AppID和AppSecret调用本接口来获取access_token。AppID和AppSecret可在鱼说开放平台官网-开发页中获得（需要已经成为开发者，  且帐号没有异常状态）。内测期间， 请联系鱼说工作人员获取AppID和AppSecret。
 
-*注意调用所有鱼说接口时均需使用https协议。如果第三方不使用中控服务器，而是选择各个业务逻辑点各自去刷新access_token，那么就可能会产生冲突，导致服务不稳定。*
+* 注意调用所有鱼说接口时均需使用https协议。如果第三方不使用中控服务器，而是选择各个业务逻辑点各自去刷新access_token，那么就可能会产生冲突，导致服务不稳定。*
 
 # 接口调用请求说明
 
-请求方式: POST
-请求地址：https://api.fishsaying.com/oauth/token?grant_type=client_credential&client_id=APPID&client_secret=APPSECRET&scope=read
+#### 请求方式: POST
+#### 请求地址：https://api.fishsaying.com/oauth/token?grant_type=client_credential&client_id=APPID&client_secret=APPSECRET&scope=read
 
 
 # 参数说明
@@ -24,7 +24,7 @@ access_token是鱼说开放平台的全局唯一接口调用凭据，开发者�
 | ---------- |---------|-------------------|
 | grant_type | 是      | 获取access_token填写client_credential(固定值) |
 | client_id      | 是      | 第三方用户唯一凭证 | 
-| client_secret     | 是      | 第三方用户唯一凭证密钥，即appsecret |
+| client_secret     | 是      | 第三方用户唯一凭证密钥 |
 | scope      | 是      | read or write|
 # 返回说明
 
